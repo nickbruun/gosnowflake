@@ -3,22 +3,22 @@ package gosnowflake
 // Unique ID generator.
 type Generator interface {
 	// Worker ID.
-	WorkerId() uint64
+	WorkerId() int
 
 	// Datacenter ID.
-	DatacenterId() uint64
+	DatacenterId() int
 
 	// Current timestamp.
 	//
 	// Milliseconds since the UNIX epoch.
-	Timestamp() uint64
+	Timestamp() int64
 
 	// Generator epoch.
 	//
 	// Milliseconds since the UNIX epoch that is considered the generator's
 	// epoch.
-	Epoch() uint64
+	Epoch() int64
 
 	// Generate next ID.
-	NextId() (uint64, error)
+	NextId() (int64, error)
 }

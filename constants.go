@@ -5,5 +5,5 @@ const (
 	//
 	// Snowflake epoch used by Twitter in its official implementation of
 	// Snowflake.
-	TwitterEpoch = uint64(1288834974657)
+	TwitterEpoch = int64(1288834974657)
 )

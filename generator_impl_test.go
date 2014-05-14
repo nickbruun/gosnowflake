@@ -22,20 +22,24 @@ func TestConstants(t *testing.T) {
 // Test generator implementation.
 func testGeneratorImplementation(t *testing.T, gName string, creator generatorCreator, epoch int64) {
 	// Creating new generator with out of range IDs returns expected error.
-	g, err := creator(32, 0)
-	if err != ErrWorkerIdOutOfRange {
-		t.Errorf("Expected error from out of range worker ID to be ErrWorkerIdOutOfRange, but it is: %v", err)
-	}
-	if g != nil {
-		t.Errorf("Expected generator returned from call to %s(..) with out of range worker ID to be nil", gName)
+	for _, workerId := range []int { -1, 32 } {
+		g, err := creator(workerId, 0)
+		if err != ErrWorkerIdOutOfRange {
+			t.Errorf("Expected error from out of range worker ID to be ErrWorkerIdOutOfRange, but it is: %v", err)
+		}
+		if g != nil {
+			t.Errorf("Expected generator returned from call to %s(..) with out of range worker ID to be nil", gName)
+		}
 	}
 
-	g, err = creator(0, 32)
-	if err != ErrDatacenterIdOutOfRange {
-		t.Errorf("Expected error from out of range data center ID to be ErrDatacenterIdOutOfRange, but it is: %v", err)
-	}
-	if g != nil {
-		t.Errorf("Expected generator returned from call to %s(..) with out of range data center ID to be nil", gName)
+	for _, datacenterId := range []int { -1, 32 } {
+		g, err := creator(0, datacenterId)
+		if err != ErrDatacenterIdOutOfRange {
+			t.Errorf("Expected error from out of range data center ID to be ErrDatacenterIdOutOfRange, but it is: %v", err)
+		}
+		if g != nil {
+			t.Errorf("Expected generator returned from call to %s(..) with out of range data center ID to be nil", gName)
+		}
 	}
 
 	// Creating new generator with valid IDs returns a generator and no
@@ -48,7 +52,7 @@ func testGeneratorImplementation(t *testing.T, gName string, creator generatorCr
 		{15, 16},
 		{31, 31},
 	} {
-		g, err = creator(args.workerId, args.datacenterId)
+		g, err := creator(args.workerId, args.datacenterId)
 		if err != nil {
 			t.Errorf("Unexpected error returned from %s(%d, %d, ..): %v", gName, args.workerId, args.datacenterId, err)
 		}
@@ -72,7 +76,7 @@ func testGeneratorImplementation(t *testing.T, gName string, creator generatorCr
 	}
 
 	// A generator returns correct timestamps.
-	g, err = creator(5, 24)
+	g, err := creator(5, 24)
 	if err != nil {
 		t.Fatalf("Unexpected error creating generator: %v", err)
 	}

@@ -136,3 +136,18 @@ func TestGeneratorEpoch(t *testing.T) {
 		return NewGeneratorEpoch(w, d, 1400027069000)
 	}, 1400027069000)
 }
+
+// Benchmark generator.
+func BenchmarkGenerator(b *testing.B) {
+	g, err := NewGenerator(5, 24)
+	if g == nil || err != nil {
+		b.Fatal("Failed to create generator")
+	}
+
+	for n := 0; n < b.N; n++ {
+		_, err = g.NextId()
+		if err != nil {
+			b.Fatalf("ID generation failed: %v", err)
+		}
+	}
+}

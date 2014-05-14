@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+const (
+	acceptedClockDriftMs = 10
+)
+
 // Generator creator function.
 type generatorCreator func(workerId, datacenterId uint64) (Generator, error)
 
@@ -76,7 +80,7 @@ func testGeneratorImplementation(t *testing.T, gName string, creator generatorCr
 	now := uint64(time.Now().UTC().UnixNano() / 1000000)
 	timestamp := g.Timestamp()
 
-	if timestamp < now || timestamp > now+2 {
+	if timestamp < now || timestamp > now+acceptedClockDriftMs {
 		t.Errorf("Timestamp returned from generator seems to be adrift from system clock by %d ms", timestamp-now)
 	}
 
@@ -107,7 +111,7 @@ func testGeneratorImplementation(t *testing.T, gName string, creator generatorCr
 
 		timestamp = id >> 22
 
-		if timestamp < now || timestamp > now+2 {
+		if timestamp < now || timestamp > now+acceptedClockDriftMs {
 			t.Fatalf("Timestamp of generated ID seems to be adrift from system clock by %d ms", timestamp-now)
 		}
 

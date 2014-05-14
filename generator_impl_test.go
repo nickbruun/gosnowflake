@@ -131,7 +131,7 @@ func testGeneratorImplementation(t *testing.T, gName string, creator generatorCr
 
 // Test generator with default epoch.
 func TestGenerator(t *testing.T) {
-	testGeneratorImplementation(t, "NewGenerator", NewGenerator, twitterEpoch)
+	testGeneratorImplementation(t, "NewGenerator", NewGenerator, TwitterEpoch)
 }
 
 // Test generator with custom epoch.

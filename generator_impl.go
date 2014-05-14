@@ -12,8 +12,6 @@ const (
 	datacenterIdBits = 5
 	maxDatacenterId  = (uint64(1) << datacenterIdBits) - uint64(1)
 
-	twitterEpoch = uint64(1288834974657)
-
 	sequenceBits = 12
 	sequenceMask = uint64(-1 ^ (-1 << sequenceBits))
 
@@ -48,7 +46,7 @@ func NewGenerator(workerId, datacenterId uint64) (Generator, error) {
 	return &generator{
 		workerId:      workerId,
 		datacenterId:  datacenterId,
-		epoch:         twitterEpoch,
+		epoch:         TwitterEpoch,
 		lastTimestamp: 0,
 	}, nil
 }
